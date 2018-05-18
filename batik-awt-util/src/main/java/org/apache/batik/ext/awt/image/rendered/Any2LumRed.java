@@ -34,6 +34,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 
 import org.apache.batik.ext.awt.ColorSpaceHintKey;
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 
 /**
@@ -137,7 +138,9 @@ public class Any2LumRed extends AbstractRed {
             }
 
             ColorConvertOp op = new ColorConvertOp(null);
-            op.filter(srcBI, dstBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
+            FilterUtil.filter(op, srcBI, dstBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
 
             // Have to 'fix' alpha premult
             if (dstCM.hasAlpha()) {

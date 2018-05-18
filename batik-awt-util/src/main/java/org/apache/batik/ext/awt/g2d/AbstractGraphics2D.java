@@ -18,6 +18,8 @@
  */
 package org.apache.batik.ext.awt.g2d;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
@@ -924,7 +926,9 @@ public abstract class AbstractGraphics2D extends Graphics2D implements Cloneable
                           BufferedImageOp op,
                           int x,
                           int y){
-        img = op.filter(img, null);
+        // yWorks - JDK 1.7.0_25 safe filtering
+        img = FilterUtil.filter(op, img);
+        // yWorks - JDK 1.7.0_25 safe filtering
         drawImage(img, x, y, null);
     }
 
