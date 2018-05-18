@@ -36,6 +36,7 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 
 /**
@@ -190,7 +191,9 @@ public class AffineRed extends AbstractRed {
         myBI = new BufferedImage(myCM,wr.createWritableTranslatedChild(0,0),
                                  myCM.isAlphaPremultiplied(), null);
 
-        op.filter(srcBI, myBI);
+        // yWorks - JDK 1.7.0_25 safe filtering
+        FilterUtil.filter(op, srcBI, myBI);
+        // yWorks - JDK 1.7.0_25 safe filtering
 
         // if ((count % 40) == 0) {
         //     org.apache.batik.ImageDisplay.showImage("Src: " , srcBI);

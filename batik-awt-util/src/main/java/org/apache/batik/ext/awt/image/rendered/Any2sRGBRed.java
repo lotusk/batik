@@ -31,6 +31,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 
 /**
@@ -277,7 +278,9 @@ public class Any2sRGBRed extends AbstractRed {
 
         ColorConvertOp op = new ColorConvertOp(dstCM.getColorSpace(),
                                                null);
-        dstBI = op.filter(srcBI, null);
+        // yWorks - JDK 1.7.0_25 safe filtering
+        dstBI = FilterUtil.filter(op, srcBI);
+        // yWorks - JDK 1.7.0_25 safe filtering
 
         // System.out.println("After filter:");
 

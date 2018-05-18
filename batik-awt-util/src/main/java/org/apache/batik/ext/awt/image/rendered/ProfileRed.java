@@ -219,7 +219,9 @@ public class ProfileRed extends AbstractRed {
             BufferedImage sRGBImage = new BufferedImage
                 (sRGBCompCM, wr, false, null);
             ColorConvertOp colorConvertOp = new ColorConvertOp(null);
-            colorConvertOp.filter(newImg, sRGBImage);
+            // yWorks - JDK 1.7.0_25 safe filtering
+            FilterUtil.filter(colorConvertOp, newImg, sRGBImage);
+            // yWorks - JDK 1.7.0_25 safe filtering
 
             /**
              * Integrate alpha back into the image if there is any

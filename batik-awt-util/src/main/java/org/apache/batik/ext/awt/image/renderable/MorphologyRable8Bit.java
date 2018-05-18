@@ -30,6 +30,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.awt.image.renderable.RenderContext;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.batik.ext.awt.image.PadMode;
 import org.apache.batik.ext.awt.image.rendered.AffineRed;
 import org.apache.batik.ext.awt.image.rendered.BufferedImageCachableRed;
@@ -237,7 +238,9 @@ public class MorphologyRable8Bit
         
         BufferedImage destBI;
         if(op != null){
-            destBI = op.filter(srcBI, null);
+            // yWorks - JDK 1.7.0_25 safe filtering
+            destBI = FilterUtil.filter(op, srcBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
         }
         else{
             destBI = srcBI;

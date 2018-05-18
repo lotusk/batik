@@ -39,6 +39,7 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 import java.awt.image.renderable.RenderContext;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.batik.ext.awt.image.GraphicsUtil;
 import org.apache.batik.ext.awt.image.PadMode;
 import org.apache.batik.ext.awt.image.rendered.AffineRed;
@@ -401,7 +402,9 @@ public class ConvolveMatrixRable8Bit
             srcBI = new BufferedImage(cm, wr, cm.isAlphaPremultiplied(), null);
 
             // Easy case just apply the op...
-            destBI = op.filter(srcBI, null);
+            // yWorks - JDK 1.7.0_25 safe filtering
+            destBI = FilterUtil.filter(op, srcBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
 
             if (kernelHasNegValues) {
                 // When the kernel has negative values it's possible
@@ -461,7 +464,9 @@ public class ConvolveMatrixRable8Bit
                 (cm, dstWR, cm.isAlphaPremultiplied(), null);
 
             // Filter between the two image without alpha.
-            tmpDstBI = op.filter(tmpSrcBI, tmpDstBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
+            tmpDstBI = FilterUtil.filter(op, tmpSrcBI, tmpDstBI);
+            // yWorks - JDK 1.7.0_25 safe filtering
 
             // org.apache.batik.test.gvt.ImageDisplay.showImage
             //   ("tmpDstBI: ", tmpDstBI);
