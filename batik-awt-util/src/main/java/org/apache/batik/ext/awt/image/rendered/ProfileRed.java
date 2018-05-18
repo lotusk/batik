@@ -35,6 +35,7 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 
+import org.apache.batik.ext.awt.image.FilterUtil;
 import org.apache.xmlgraphics.java2d.color.ICCColorSpaceWithIntent;
 
 /**
