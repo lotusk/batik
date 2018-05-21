@@ -20,6 +20,7 @@ package org.apache.batik.ext.awt.image.codec.imageio;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
@@ -130,14 +131,30 @@ public abstract class AbstractImageIORegistryEntry
                         //and ignoring the gamma correction done by PNGRed :-(
                         //Matches the code used by the former JPEGRegistryEntry, though.
                         BufferedImage bi = reader.read(imageIndex);
-                        cr = GraphicsUtil.wrap(bi);
-                        cr = new Any2sRGBRed(cr);
-                        cr = new FormatRed(cr, GraphicsUtil.sRGB_Unpre);
-                        WritableRaster wr = (WritableRaster)cr.getData();
-                        ColorModel cm = cr.getColorModel();
-                        BufferedImage image = new BufferedImage
-                            (cm, wr, cm.isAlphaPremultiplied(), null);
-                        cr = GraphicsUtil.wrap(image);
+                        if(bi.getType() == BufferedImage.TYPE_BYTE_INDEXED) {
+                            BufferedImage image = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB);
+                            Graphics2D g2d = image.createGraphics();
+                            g2d.drawImage(bi, 0, 0, null);
+                            g2d.dispose();
+                            cr = GraphicsUtil.wrap(image);
+                        } else {
+                            cr = GraphicsUtil.wrap(bi);
+                            cr = new Any2sRGBRed(cr);
+                            cr = new FormatRed(cr, GraphicsUtil.sRGB_Unpre);
+                            WritableRaster wr = (WritableRaster)cr.getData();
+                            ColorModel cm = cr.getColorModel();
+                            BufferedImage image = new BufferedImage
+                                (cm, wr, cm.isAlphaPremultiplied(), null);
+                            cr = GraphicsUtil.wrap(image);
+                        }
+                        // cr = GraphicsUtil.wrap(bi);
+                        // cr = new Any2sRGBRed(cr);
+                        // cr = new FormatRed(cr, GraphicsUtil.sRGB_Unpre);
+                        // WritableRaster wr = (WritableRaster)cr.getData();
+                        // ColorModel cm = cr.getColorModel();
+                        // BufferedImage image = new BufferedImage
+                        //     (cm, wr, cm.isAlphaPremultiplied(), null);
+                        // cr = GraphicsUtil.wrap(image);
                         filt = new RedRable(cr);
                     } catch (IOException ioe) {
                         // Something bad happened here...
