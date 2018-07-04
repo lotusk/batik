@@ -22,6 +22,7 @@ import java.net.URL;
 
 import org.apache.batik.script.Interpreter;
 import org.apache.batik.script.InterpreterFactory;
+import org.apache.batik.script.ImportInfo;
 
 /**
  * Allows to create instances of <code>JaclInterpreter</code> class.
