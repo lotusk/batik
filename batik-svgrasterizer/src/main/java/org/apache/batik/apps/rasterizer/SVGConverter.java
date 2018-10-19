@@ -1009,8 +1009,10 @@ public class SVGConverter {
 
             // Report error to the controller. If controller decides
             // to stop, throw an exception
-            boolean proceed = controller.proceedOnSourceTranscodingFailure
-                (inputFile, outputFile, ERROR_WHILE_RASTERIZING_FILE);
+//            boolean proceed = controller.proceedOnSourceTranscodingFailure
+//                (inputFile, outputFile, ERROR_WHILE_RASTERIZING_FILE);
+
+            boolean proceed = false;  //should be stop
 
             if (!proceed){
                 throw new SVGConverterException(ERROR_WHILE_RASTERIZING_FILE,
